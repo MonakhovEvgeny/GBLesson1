@@ -1,59 +1,53 @@
 package ru.gb.vending_machine.family_tree.model;
 
 
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
-public class FamilyTree implements Serializable, Iterable<Person> {
+public class FamilyTree<T> implements Serializable, Iterable<T> {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final Map<String, Person> people;
+    private final Map<String, T> members;
 
     public FamilyTree() {
-        this.people = new HashMap<>();
+        this.members = new HashMap<>();
     }
 
-    public void addPerson(Person person) {
-        people.put(person.getName(), person);
+    public void addMember(String name, T member) {
+        members.put(name, member);
     }
 
-    public Person getPerson(String name) {
-        return people.get(name);
-    }
-
-    public List<Person> getChildren(String name) {
-        Person person = people.get(name);
-        if (person != null) {
-            return person.getChildren();
-        }
-        return null;
+    public T getMember(String name) {
+        return members.get(name);
     }
 
     @Override
-    public Iterator<Person> iterator() {
-        return people.values().iterator();
+    public Iterator<T> iterator() {
+        return members.values().iterator();
     }
 
-    public List<Person> getPeopleSortedByName() {
-        List<Person> sortedPeople = new ArrayList<>(people.values());
-        sortedPeople.sort(Comparator.comparing(Person::getName));
-        return sortedPeople;
+    public List<T> getMembersSortedByName(Comparator<T> nameComparator) {
+        List<T> sortedMembers = new ArrayList<>(members.values());
+        sortedMembers.sort(nameComparator);
+        return sortedMembers;
     }
 
-    public List<Person> getPeopleSortedByBirthDate() {
-        List<Person> sortedPeople = new ArrayList<>(people.values());
-        sortedPeople.sort(Comparator.comparing(Person::getBirthDate));
-        return sortedPeople;
+    public List<T> getMembersSortedByBirthDate(Comparator<T> birthDateComparator) {
+        List<T> sortedMembers = new ArrayList<>(members.values());
+        sortedMembers.sort(birthDateComparator);
+        return sortedMembers;
     }
 
     @Override
     public String toString() {
         return "FamilyTree{" +
-                "people=" + people.values() +
+                "members=" + members.values() +
                 '}';
     }
 }
+
 
 
