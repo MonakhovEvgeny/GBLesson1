@@ -1,4 +1,6 @@
-package ru.gb.vending_machine.family_tree;
+package ru.gb.vending_machine.family_tree.model;
+
+
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -67,6 +69,7 @@ public class Person implements Serializable {
                 '}';
     }
 }
+
 
 
 

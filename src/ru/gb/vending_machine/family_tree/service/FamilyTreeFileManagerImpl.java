@@ -1,4 +1,11 @@
-package ru.gb.vending_machine.family_tree;
+package ru.gb.vending_machine.family_tree.service;
+
+
+
+
+
+import ru.gb.vending_machine.family_tree.model.FamilyTree;
+import ru.gb.vending_machine.family_tree.utils.FamilyTreeFileManager;
 
 import java.io.*;
 
@@ -18,3 +25,4 @@ public class FamilyTreeFileManagerImpl implements FamilyTreeFileManager {
         }
     }
 }
+

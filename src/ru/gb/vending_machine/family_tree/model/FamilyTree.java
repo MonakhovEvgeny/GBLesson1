@@ -1,12 +1,11 @@
-package ru.gb.vending_machine.family_tree;
+package ru.gb.vending_machine.family_tree.model;
+
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class FamilyTree implements Serializable {
+public class FamilyTree implements Serializable, Iterable<Person> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -33,10 +32,28 @@ public class FamilyTree implements Serializable {
     }
 
     @Override
+    public Iterator<Person> iterator() {
+        return people.values().iterator();
+    }
+
+    public List<Person> getPeopleSortedByName() {
+        List<Person> sortedPeople = new ArrayList<>(people.values());
+        sortedPeople.sort(Comparator.comparing(Person::getName));
+        return sortedPeople;
+    }
+
+    public List<Person> getPeopleSortedByBirthDate() {
+        List<Person> sortedPeople = new ArrayList<>(people.values());
+        sortedPeople.sort(Comparator.comparing(Person::getBirthDate));
+        return sortedPeople;
+    }
+
+    @Override
     public String toString() {
         return "FamilyTree{" +
                 "people=" + people.values() +
                 '}';
     }
 }
+
 

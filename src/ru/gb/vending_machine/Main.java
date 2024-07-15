@@ -1,6 +1,13 @@
 package ru.gb.vending_machine;
 
-import ru.gb.vending_machine.family_tree.*;
+
+
+
+import ru.gb.vending_machine.family_tree.model.FamilyTree;
+import ru.gb.vending_machine.family_tree.model.Gender;
+import ru.gb.vending_machine.family_tree.model.Person;
+import ru.gb.vending_machine.family_tree.service.FamilyTreeFileManagerImpl;
+import ru.gb.vending_machine.family_tree.utils.FamilyTreeFileManager;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -53,6 +60,16 @@ public class Main {
             System.out.println(loadedFamilyTree);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
+
+        System.out.println("\nPeople sorted by name:");
+        for (Person person : familyTree.getPeopleSortedByName()) {
+            System.out.println(person);
+        }
+
+        System.out.println("\nPeople sorted by birth date:");
+        for (Person person : familyTree.getPeopleSortedByBirthDate()) {
+            System.out.println(person);
         }
     }
 }
