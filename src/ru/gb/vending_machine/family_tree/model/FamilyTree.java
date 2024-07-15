@@ -1,7 +1,6 @@
 package ru.gb.vending_machine.family_tree.model;
 
 
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
@@ -29,14 +28,18 @@ public class FamilyTree<T> implements Serializable, Iterable<T> {
         return members.values().iterator();
     }
 
+    public List<T> getAllMembers() {
+        return new ArrayList<>(members.values());
+    }
+
     public List<T> getMembersSortedByName(Comparator<T> nameComparator) {
-        List<T> sortedMembers = new ArrayList<>(members.values());
+        List<T> sortedMembers = getAllMembers();
         sortedMembers.sort(nameComparator);
         return sortedMembers;
     }
 
     public List<T> getMembersSortedByBirthDate(Comparator<T> birthDateComparator) {
-        List<T> sortedMembers = new ArrayList<>(members.values());
+        List<T> sortedMembers = getAllMembers();
         sortedMembers.sort(birthDateComparator);
         return sortedMembers;
     }
@@ -48,6 +51,7 @@ public class FamilyTree<T> implements Serializable, Iterable<T> {
                 '}';
     }
 }
+
 
 
 

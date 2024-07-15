@@ -1,19 +1,16 @@
 package ru.gb.vending_machine;
 
-
-import ru.gb.vending_machine.family_tree.model.FamilyTree;
 import ru.gb.vending_machine.family_tree.model.Gender;
 import ru.gb.vending_machine.family_tree.model.Person;
-import ru.gb.vending_machine.family_tree.service.FamilyTreeFileManagerImpl;
-import ru.gb.vending_machine.family_tree.utils.FamilyTreeFileManager;
+import ru.gb.vending_machine.family_tree.presenter.FamilyTreePresenter;
+import ru.gb.vending_machine.family_tree.view.FamilyTreeConsoleView;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
-        FamilyTree<Person> familyTree = new FamilyTree<>();
+        FamilyTreeConsoleView view = new FamilyTreeConsoleView();
+        FamilyTreePresenter presenter = new FamilyTreePresenter(view);
 
         Person john = new Person("John", Gender.MALE, LocalDate.of(1970, 1, 1));
         Person jane = new Person("Jane", Gender.FEMALE, LocalDate.of(1975, 5, 5));
@@ -25,51 +22,35 @@ public class Main {
         jane.addChild(paul);
         jane.addChild(anna);
 
-        familyTree.addMember(john.getName(), john);
-        familyTree.addMember(jane.getName(), jane);
-        familyTree.addMember(paul.getName(), paul);
-        familyTree.addMember(anna.getName(), anna);
+        presenter.addPerson(john);
+        presenter.addPerson(jane);
+        presenter.addPerson(paul);
+        presenter.addPerson(anna);
 
         // Установим дату смерти для John
         john.setDeathDate(LocalDate.of(2020, 1, 1));
 
-        System.out.println("Children of John:");
+        view.displayMessage("Children of John:");
         for (Person child : john.getChildren()) {
-            System.out.println(child);
+            view.displayMessage(child.toString());
         }
 
-        System.out.println("\nFamily Tree:");
-        System.out.println(familyTree);
+        view.displayMessage("\nFamily Tree:");
+        presenter.displayFamilyTree();
 
-        System.out.println("\nAges:");
-        System.out.println(john.getName() + " age: " + john.getAge());
-        System.out.println(jane.getName() + " age: " + jane.getAge());
-        System.out.println(paul.getName() + " age: " + paul.getAge());
-        System.out.println(anna.getName() + " age: " + anna.getAge());
+        view.displayMessage("\nPeople sorted by name:");
+        presenter.displaySortedByName();
 
-        FamilyTreeFileManager<Person> fileManager = new FamilyTreeFileManagerImpl<>();
+        view.displayMessage("\nPeople sorted by birth date:");
+        presenter.displaySortedByBirthDate();
+
         String fileName = "familyTree.ser";
 
-        try {
-            fileManager.saveFamilyTree(familyTree, fileName);
-            System.out.println("\nFamily tree saved to " + fileName);
+        presenter.saveFamilyTree(fileName);
+        presenter.loadFamilyTree(fileName);
 
-            FamilyTree<Person> loadedFamilyTree = fileManager.loadFamilyTree(fileName);
-            System.out.println("\nLoaded Family Tree:");
-            System.out.println(loadedFamilyTree);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("\nPeople sorted by name:");
-        for (Person person : familyTree.getMembersSortedByName(Comparator.comparing(Person::getName))) {
-            System.out.println(person);
-        }
-
-        System.out.println("\nPeople sorted by birth date:");
-        for (Person person : familyTree.getMembersSortedByBirthDate(Comparator.comparing(Person::getBirthDate))) {
-            System.out.println(person);
-        }
+        view.displayMessage("\nLoaded Family Tree:");
+        presenter.displayFamilyTree();
     }
 }
 
